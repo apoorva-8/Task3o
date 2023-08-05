@@ -1,0 +1,85 @@
+# Name : Apoorva Sharma
+# Oasys Infobyte Data Science Internship
+# Task 5 : Sales prediction using Python
+
+# Importing Libraries
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.preprocessing import LabelEncoder
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn import metrics
+
+data= pd.read_csv("Advertising.csv")
+
+data.head()
+
+data.shape
+
+data.info()
+
+# There is no missing values.
+
+# Data Analysis
+
+sns.set()    # sns.set will load seaborn's default theme and color palette to the session
+
+import warnings
+warnings.filterwarnings("ignore")
+
+plt.figure(figsize=(6,6))
+sns.distplot(data["TV"])
+plt.show()
+
+# TV advertisment ranges from 0 to 200. It is peak on 200 . 
+
+plt.figure(figsize=(6,6))
+sns.distplot(data["Radio"])
+plt.show()
+
+# Radio Advertisement ranges from 5 to 40. It is peak on 10.
+
+plt.figure(figsize=(6,6))
+sns.distplot(data["Newspaper"])
+plt.show()
+
+# Newspaper  Advertisement ranges from 5 to 90. It is peak on 20
+
+# This shows that TV is the most popular way of advertising.
+
+# Splitting target and training feature data
+
+X = data.drop(columns="Sales")   # Here X is feature and Y is target
+Y= data["Sales"]
+
+print(X)
+
+print(Y)
+
+# Splitting the data into Training and testing data
+
+X_train,X_test,Y_train,Y_test = train_test_split(X,Y,test_size=0.2, random_state=2)
+
+print(X.shape, X_train.shape, X_test.shape)
+
+# Training Machine Learning Model
+
+ model = LinearRegression()
+
+model.fit(X_train, Y_train)
+
+# Now our model is trained
+
+# Evaluation
+
+training_data_prediction = model.predict(X_train)
+
+
+# R squared Value
+# This r2_train will compare the original Y_train value and the predicted Y_train value . This shows us how well our model is working.
+r_sq = model.score(X, Y)
+print(f"coefficient of determination: {r_sq}")
+
